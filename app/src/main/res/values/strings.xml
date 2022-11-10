@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">NyNewsApp (Java)</string>
+    <string name="api_key">48b79801c0e1430eb1ddc82ad40b8e58</string>
+    <string name="pbl">Published On :</string>
+    <string name="txtCredits"><a href="http://www.google.com">Google</a></string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="test_text">A broad range of industrial and consumer products use cors and users. Early computers were meant to be used only for calculations. Simple manual instruments like the abacus have aided people in doing calculations since ancient times. Early in the Industrial Revolution, some mechanical devices were built to automate longatterns for looms. Morog calcugital electronic calculating machines were developed duri</string>
+    <string name="title_activity_justest_tabbed">JustestTabbed</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+</resources>
