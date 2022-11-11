@@ -12,6 +12,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +28,7 @@ public class FragmentTech extends Fragment {
     List<NewsItem> list;
     MyCustAdapt mydpt;
     ConstraintLayout load;
+    ShimmerFrameLayout shm;
     public FragmentTech(){
 
     }
@@ -36,6 +39,7 @@ public class FragmentTech extends Fragment {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_tech, container, false);
         rv=view.findViewById(R.id.recyly);
+        shm=view.findViewById(R.id.shm);
         list=new ArrayList<>();
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         Log.i(TAG,"helo");
@@ -52,6 +56,8 @@ public class FragmentTech extends Fragment {
             public void onResponse(Call<FullNews> call, Response<FullNews> response) {
 //                Log.i(TAG,String.valueOf(response));
                 if(response.isSuccessful()){
+                    rv.setVisibility(View.VISIBLE);
+                    shm.setVisibility(View.GONE);
                     list.clear();
                     list.addAll(response.body().getArticles());
 //                    mydpt.prt();

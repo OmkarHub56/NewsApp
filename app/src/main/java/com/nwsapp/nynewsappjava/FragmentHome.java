@@ -1,5 +1,6 @@
 package com.nwsapp.nynewsappjava;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +14,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -63,10 +67,10 @@ public class FragmentHome extends Fragment {
 
     ShimmerFrameLayout sfl,sfl2;
     LinearLayout shm1,shm2;
+    TextView showing_res;
+    LinearLayout custom_sr_ll;
 
-    //    HorizontalScrollView sv;
     public FragmentHome(){
-//        this.mc=mc;
     }
 
     @Override
@@ -86,6 +90,8 @@ public class FragmentHome extends Fragment {
         parent_ll= (LinearLayout) inflater.inflate(R.layout.fragment_home, container, false);
         breaking_news_ll=parent_ll.findViewById(R.id.breaking_news_ll);
         trending_now_ll=parent_ll.findViewById(R.id.trending_now_ll);
+        showing_res=parent_ll.findViewById(R.id.showing_res);
+        custom_sr_ll=parent_ll.findViewById(R.id.custom_sr_ll);
 
         breaking_news_title=parent_ll.findViewById(R.id.breaking_news_title);
         trending_news_title=parent_ll.findViewById(R.id.trending_news_title);
@@ -253,7 +259,15 @@ public class FragmentHome extends Fragment {
         breaking_scrollview.setVisibility(View.GONE);
         trending_scrollview.setVisibility(View.GONE);
 
-        custom_search_fl.setVisibility(View.VISIBLE);
+        SpannableString str=new SpannableString("Showing results for '"+search+"'");
+        pl("ye",search.length()-1);
+        str.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.purple_200)),21,str.length()-1, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        showing_res.setText(str);
+
+        ProgressDialog dialog = ProgressDialog.show(getActivity(), "Please wait",
+                "Fetching news for '"+search+"'", true);
+
+        custom_sr_ll.setVisibility(View.VISIBLE);
         ApiUtilities.getApiInterface().getKeywordNews(api_key,100,search,"us").enqueue(new Callback<FullNews>() {
             @Override
             public void onResponse(Call<FullNews> call, Response<FullNews> response) {
@@ -268,6 +282,7 @@ public class FragmentHome extends Fragment {
 //                    trending_now_ll.addView(new_trend);
 //                }
                 if(response.isSuccessful()){
+                    dialog.dismiss();
                     list.clear();
                     list.addAll(response.body().getArticles());
 //                    mydpt.prt();
@@ -294,7 +309,7 @@ public class FragmentHome extends Fragment {
         breaking_scrollview.setVisibility(View.VISIBLE);
         trending_scrollview.setVisibility(View.VISIBLE);
 
-        custom_search_fl.setVisibility(View.GONE);
+        custom_sr_ll.setVisibility(View.GONE);
     }
 
     @Override

@@ -20,6 +20,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 
@@ -37,7 +38,7 @@ public class FragmentGeneral extends Fragment {
     List<NewsItem> list;
     MyCustAdapt mydpt;
     ConstraintLayout load;
-
+    ShimmerFrameLayout shm;
     public FragmentGeneral() {
         // Required empty public constructor
     }
@@ -49,6 +50,7 @@ public class FragmentGeneral extends Fragment {
         pl("Gen Fragment onCreateView");
         View view=inflater.inflate(R.layout.fragment_general, container, false);
         rv=view.findViewById(R.id.recyly);
+        shm=view.findViewById(R.id.shm);
         list=new ArrayList<>();
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         Log.i(TAG,"helo");
@@ -65,6 +67,8 @@ public class FragmentGeneral extends Fragment {
             public void onResponse(Call<FullNews> call, Response<FullNews> response) {
 //                Log.i(TAG,String.valueOf(response));
                 if(response.isSuccessful()){
+                    rv.setVisibility(View.VISIBLE);
+                    shm.setVisibility(View.GONE);
                     list.clear();
                     list.addAll(response.body().getArticles());
 //                    mydpt.prt();

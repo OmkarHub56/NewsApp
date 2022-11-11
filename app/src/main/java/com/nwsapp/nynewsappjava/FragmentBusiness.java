@@ -16,6 +16,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +32,7 @@ public class FragmentBusiness extends Fragment {
     List<NewsItem> list;
     MyCustAdapt mydpt;
     ConstraintLayout load;
+    ShimmerFrameLayout shm;
     public FragmentBusiness(){
 
     }
@@ -40,6 +43,7 @@ public class FragmentBusiness extends Fragment {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_business, container, false);
         rv=view.findViewById(R.id.recyly);
+        shm=view.findViewById(R.id.shm);
         list=new ArrayList<>();
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         Log.i(TAG,"helo");
@@ -56,6 +60,8 @@ public class FragmentBusiness extends Fragment {
             public void onResponse(Call<FullNews> call, Response<FullNews> response) {
 //                Log.i(TAG,String.valueOf(response));
                 if(response.isSuccessful()){
+                    rv.setVisibility(View.VISIBLE);
+                    shm.setVisibility(View.GONE);
                     list.clear();
                     list.addAll(response.body().getArticles());
 //                    mydpt.prt();
