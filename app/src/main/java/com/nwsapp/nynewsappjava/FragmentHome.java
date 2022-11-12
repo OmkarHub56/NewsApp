@@ -128,7 +128,7 @@ public class FragmentHome extends Fragment {
         list=new ArrayList<>();
         custom_news_recyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
 //        Log.i(TAG,"helo");
-        mydpt = new MyCustAdapt(list,getContext());
+        mydpt = new MyCustAdapt(list,getContext(),1);
 //        load=(ConstraintLayout)inflater.inflate(R.layout.loading_screen,container,false);
         custom_news_recyclerview.setAdapter(mydpt);
 
@@ -140,38 +140,38 @@ public class FragmentHome extends Fragment {
 
 //                pl("gg");
 //                pl(response);
-                int bc=Math.min(3,response.body().articles.size());
-                GFullNews gf=response.body();
-//                pl("totart ="+response.body().articles.size());
-//                pl("bc ="+bc);
-                for(int i=0;i<bc;i++){
-                    LinearLayout temp= (LinearLayout) getLayoutInflater().inflate(R.layout.one_breaking_news_panel,breaking_news_ll,false);
-                    int finalI = i;
-                    temp.setOnClickListener(view -> {
-                        Intent intent=new Intent(getActivity(),SingleNewsWindow.class);
-                        intent.putExtra("title",gf.articles.get(finalI).title);
-                        intent.putExtra("description",gf.articles.get(finalI).description);
-                        intent.putExtra("content",gf.articles.get(finalI).content);
-                        intent.putExtra("author",gf.articles.get(finalI).source.name);
-                        intent.putExtra("imageUrl",gf.articles.get(finalI).image);
-                        String td=gf.articles.get(finalI).getPublishedAt();
-                        String time=td.substring(11,16),date=td.substring(0,10);
-                        intent.putExtra("publishedAt","Time : "+time+"   Date : "+date);
-                        intent.putExtra("url",gf.articles.get(finalI).url);
-                        getActivity().startActivity(intent);
-                    });
-                    TextView title=temp.findViewById(R.id.title_show);
-                    title.setText(response.body().articles.get(i).title);
-                    ImageView img=temp.findViewById(R.id.img_show);
-                    img.setClipToOutline(true);
-
-
-                    //to set the width of imageView to be the width of the screen - margin of 20dp from both sides
-                    img.getLayoutParams().width= (int) (screenWidth-40*screenDensity);
-                    Glide.with(getActivity()).load(response.body().articles.get(i).image).into(img);
-                    Log.i("toc","shown");
-                    breaking_news_ll.addView(temp);
-                }
+//                int bc=Math.min(3,response.body().articles.size());
+//                GFullNews gf=response.body();
+////                pl("totart ="+response.body().articles.size());
+////                pl("bc ="+bc);
+//                for(int i=0;i<bc;i++){
+//                    LinearLayout temp= (LinearLayout) getLayoutInflater().inflate(R.layout.one_breaking_news_panel,breaking_news_ll,false);
+//                    int finalI = i;
+//                    temp.setOnClickListener(view -> {
+//                        Intent intent=new Intent(getActivity(),SingleNewsWindow.class);
+//                        intent.putExtra("title",gf.articles.get(finalI).title);
+//                        intent.putExtra("description",gf.articles.get(finalI).description);
+//                        intent.putExtra("content",gf.articles.get(finalI).content);
+//                        intent.putExtra("author",gf.articles.get(finalI).source.name);
+//                        intent.putExtra("imageUrl",gf.articles.get(finalI).image);
+//                        String td=gf.articles.get(finalI).getPublishedAt();
+//                        String time=td.substring(11,16),date=td.substring(0,10);
+//                        intent.putExtra("publishedAt","Time : "+time+"  Date : "+date);
+//                        intent.putExtra("url",gf.articles.get(finalI).url);
+//                        getActivity().startActivity(intent);
+//                    });
+//                    TextView title=temp.findViewById(R.id.title_show);
+//                    title.setText(response.body().articles.get(i).title);
+//                    ImageView img=temp.findViewById(R.id.img_show);
+//                    img.setClipToOutline(true);
+//
+//
+//                    //to set the width of imageView to be the width of the screen - margin of 20dp from both sides
+//                    img.getLayoutParams().width= (int) (screenWidth-40*screenDensity);
+//                    Glide.with(getActivity()).load(response.body().articles.get(i).image).into(img);
+//                    Log.i("toc","shown");
+//                    breaking_news_ll.addView(temp);
+//                }
 
 //                breaking_news_text.setText(response.body().articles.get(0).title);
             }
@@ -217,33 +217,33 @@ public class FragmentHome extends Fragment {
                 trending_scrollview.setVisibility(View.VISIBLE);
                 sfl2.setVisibility(View.GONE);
 
-                GFullNews gf=response.body();
-                for(int i=0;i<6;i++){
-                    pl("yuion",response.toString());
-                    LinearLayout new_trend= (LinearLayout) getLayoutInflater().inflate(R.layout.trending_now_news_item,trending_now_ll,false);
-                    int finalI = i;
-                    new_trend.setOnClickListener(view -> {
-                        Intent intent=new Intent(getActivity(),SingleNewsWindow.class);
-                        intent.putExtra("title",gf.articles.get(finalI).title);
-                        intent.putExtra("description",gf.articles.get(finalI).description);
-                        intent.putExtra("content",gf.articles.get(finalI).content);
-                        intent.putExtra("author",gf.articles.get(finalI).source.name);
-                        intent.putExtra("imageUrl",gf.articles.get(finalI).image);
-                        String td=gf.articles.get(finalI).getPublishedAt();
-                        String time=td.substring(11,16),date=td.substring(0,10);
-                        intent.putExtra("publishedAt","Time : "+time+"   Date : "+date);
-                        intent.putExtra("url",gf.articles.get(finalI).url);
-                        getActivity().startActivity(intent);
-                    });
-                    TextView title=new_trend.findViewById(R.id.title);
-                    title.setText(response.body().articles.get(i).title);
-                    TextView author=new_trend.findViewById(R.id.author);
-                    author.setText(response.body().articles.get(i).source.name);
-                    ImageView img=new_trend.findViewById(R.id.img);
-                    img.setClipToOutline(true);
-                    Glide.with(getActivity()).load(response.body().articles.get(i).image).into(img);
-                    trending_now_ll.addView(new_trend);
-                }
+//                GFullNews gf=response.body();
+//                for(int i=0;i<6;i++){
+//                    pl("yuion",response.toString());
+//                    LinearLayout new_trend= (LinearLayout) getLayoutInflater().inflate(R.layout.trending_now_news_item,trending_now_ll,false);
+//                    int finalI = i;
+//                    new_trend.setOnClickListener(view -> {
+//                        Intent intent=new Intent(getActivity(),SingleNewsWindow.class);
+//                        intent.putExtra("title",gf.articles.get(finalI).title);
+//                        intent.putExtra("description",gf.articles.get(finalI).description);
+//                        intent.putExtra("content",gf.articles.get(finalI).content);
+//                        intent.putExtra("author",gf.articles.get(finalI).source.name);
+//                        intent.putExtra("imageUrl",gf.articles.get(finalI).image);
+//                        String td=gf.articles.get(finalI).getPublishedAt();
+//                        String time=td.substring(11,16),date=td.substring(0,10);
+//                        intent.putExtra("publishedAt","Time : "+time+"  Date : "+date);
+//                        intent.putExtra("url",gf.articles.get(finalI).url);
+//                        getActivity().startActivity(intent);
+//                    });
+//                    TextView title=new_trend.findViewById(R.id.title);
+//                    title.setText(response.body().articles.get(i).title);
+//                    TextView author=new_trend.findViewById(R.id.author);
+//                    author.setText(response.body().articles.get(i).source.name);
+//                    ImageView img=new_trend.findViewById(R.id.img);
+//                    img.setClipToOutline(true);
+//                    Glide.with(getActivity()).load(response.body().articles.get(i).image).into(img);
+//                    trending_now_ll.addView(new_trend);
+//                }
             }
 
             @Override

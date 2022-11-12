@@ -54,7 +54,7 @@ public class FragmentGeneral extends Fragment {
         list=new ArrayList<>();
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         Log.i(TAG,"helo");
-        mydpt = new MyCustAdapt(list,getContext());
+        mydpt = new MyCustAdapt(list,getContext(),1);
         load=(ConstraintLayout)inflater.inflate(R.layout.loading_screen,container,false);
         rv.setAdapter(mydpt);
         showAllNews();

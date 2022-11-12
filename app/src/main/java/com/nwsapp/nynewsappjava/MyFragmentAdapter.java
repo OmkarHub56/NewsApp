@@ -63,12 +63,16 @@ public class MyFragmentAdapter extends FragmentStateAdapter {
             pl("Created               new TechF");
             return new FragmentTech();
         }
+        else if(position==7){
+            pl("Created               new BookmarkF");
+            return new FragmentBookmarks();
+        }
         return null;
     }
 
     @Override
     public int getItemCount() {
-        return 7;
+        return 8;
     }
 
     public FragmentHome getCurrFragment(){

@@ -39,11 +39,11 @@ import java.util.List;
 public class MyCustAdapt extends RecyclerView.Adapter<MyCustviewHolder> {
     List<NewsItem> items;
     Context context;
-    public MyCustAdapt(List<NewsItem> items,Context context){
+    int type=1;
+    public MyCustAdapt(List<NewsItem> items,Context context,int type){
         this.context=context;
         this.items=items;
-
-
+        this.type=type;
     }
 
 //    public void prt(){
@@ -76,8 +76,15 @@ public class MyCustAdapt extends RecyclerView.Adapter<MyCustviewHolder> {
 
         // published at
         String td=items.get(position).getPublishedAt();
-        String time=td.substring(11,16),date=td.substring(0,10);
-        holder.published_at.setText("Time : "+time+"   Date : "+date);
+        String time="",date="";
+        if(type==1){
+            time=td.substring(11,16);
+            date=td.substring(0,10);
+            holder.published_at.setText("Time : "+time+"  Date : "+date);
+        }
+        else{
+            holder.published_at.setText(td);
+        }
 
         // image
         if(items.get(position).getUrlToImage()==null){  // if image is null
@@ -119,15 +126,21 @@ public class MyCustAdapt extends RecyclerView.Adapter<MyCustviewHolder> {
 //            I
 //        });
         // to open the particular clicked news
+        String finalTime = time;
+        String finalDate = date;
         holder.ll.setOnClickListener(view -> {
-            Intent intent=new Intent(context,SingleNewsWindow.class);
-            intent.putExtra("title",items.get(position).getTitle());
-            intent.putExtra("description",items.get(position).getDescription());
-            intent.putExtra("content",items.get(position).getContent());
-            intent.putExtra("author",items.get(position).getAuthor());
-            intent.putExtra("imageUrl",items.get(position).getUrlToImage());
-            intent.putExtra("publishedAt","Time : "+time+"   Date : "+date);
-            intent.putExtra("url",items.get(position).getUrl());
+            Intent intent = new Intent(context, SingleNewsWindow.class);
+            intent.putExtra("title", items.get(position).getTitle());
+            intent.putExtra("description", items.get(position).getDescription());
+            intent.putExtra("content", items.get(position).getContent());
+            intent.putExtra("author", items.get(position).getAuthor());
+            intent.putExtra("imageUrl", items.get(position).getUrlToImage());
+            if (type == 1) {
+                intent.putExtra("publishedAt", "Time : " + finalTime + "  Date : " + finalDate);
+            } else {
+                intent.putExtra("publishedAt", td);
+            }
+            intent.putExtra("url", items.get(position).getUrl());
             context.startActivity(intent);
         });
     }

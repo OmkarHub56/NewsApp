@@ -21,6 +21,16 @@ public class NewsItem {
         this.content=content;
     }
 
+    public NewsItem(OneBookMarkedNewsItem itm){
+        this.author=itm.author;
+        this.title=itm.title;
+        this.description=itm.description;
+        this.url=itm.url;
+        this.urlToImage=itm.urlToImage;
+        this.publishedAt=itm.publishedAt;
+        this.content=itm.content;
+    }
+
     public String getAuthor() {
         return author;
     }

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.Scroller;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     MyFragmentAdapter mpa;
     int curr_sel_tab=0;
     TabLayout.Tab home_tab,gen_tab,health_tab,bus_tab,science_tab,sports_tab,tech_tab;
+//    int tab_ind_height;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i(TAG,"OnCreate called");
@@ -64,6 +66,10 @@ public class MainActivity extends AppCompatActivity {
         tab_layout.addTab(tab_layout.newTab().setText("Science"));
         tab_layout.addTab(tab_layout.newTab().setText("Sports"));
         tab_layout.addTab(tab_layout.newTab().setText("Tech"));
+        tab_layout.addTab(tab_layout.newTab());
+//        tab_ind_height=tab_layout.getTabSelectedIndicator().getMinimumHeight();
+//        pl("pq",tab_ind_height);
+//        tab_ind_height=50;
 //        tab_layout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 //            @Override
 //            public void onTabSelected(TabLayout.Tab tab) {
@@ -129,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
 //        tab_layout.addTab(tab_layout.newTab().setText("Tech"));
 
 //        tab_layout.setScrollPosition();
+//        tab_layout.setSelectedTabIndicator(R.drawable.solid_rounded_white);
         mpa=new MyFragmentAdapter(getSupportFragmentManager(),getLifecycle());
         view_pager=findViewById(R.id.myvp);
         view_pager.setOffscreenPageLimit(6);
@@ -137,23 +144,37 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-                pl("rect","selected "+genres[position]+" tab");
+//                pl("rect","selected "+genres[position]+" tab");
                 tab_layout.selectTab(tab_layout.getTabAt(position),true);
 //                tab_layout.setScrollPosition(position,0f,true);
-//
-                TabLayout.Tab last_tab=tab_layout.getTabAt(curr_sel_tab);
-                TextView tv1=(TextView) last_tab.getCustomView();
-                tv1.setText(last_tab.getText());
-                tv1.setTextSize(15);
-                tv1.setTextColor(getResources().getColor(R.color.dddark_gray));
 
-                TabLayout.Tab tab=tab_layout.getTabAt(position);
-                TextView tv=(TextView) tab.getCustomView();
-                tv.setText(tab.getText());
-                tv.setTextSize(18);
-                tv.setTextColor(Color.WHITE);
+//                tab_layout.setSelectedTabIndicator(R.drawable.solid_rounded_white);
+                if(curr_sel_tab==7){
+                    ImageView img= (ImageView) tab_layout.getTabAt(curr_sel_tab).getCustomView();
+                    img.setImageResource(R.drawable.bookmark_off_logo_64x64);
+                }
+                else{
+                    TabLayout.Tab last_tab=tab_layout.getTabAt(curr_sel_tab);
+                    TextView tv1=(TextView) last_tab.getCustomView();
+                    tv1.setText(last_tab.getText());
+                    tv1.setTextSize(15);
+                    tv1.setTextColor(getResources().getColor(R.color.dddark_gray));
+                }
 
-                curr_sel_tab=tab.getPosition();
+                if(position==7){
+                    ImageView img= (ImageView) tab_layout.getTabAt(position).getCustomView();
+                    img.setImageResource(R.drawable.bookmark_on_logo_64x64);
+                    tab_layout.setSelectedTabIndicatorColor(Color.WHITE);
+                }
+                else{
+                    TabLayout.Tab tab=tab_layout.getTabAt(position);
+                    TextView tv=(TextView) tab.getCustomView();
+                    tv.setText(tab.getText());
+                    tv.setTextSize(18);
+                    tv.setTextColor(Color.WHITE);
+                    tab_layout.setSelectedTabIndicatorColor(getResources().getColor(R.color.purple_500));
+                }
+                curr_sel_tab=position;
             }
 
             @Override
@@ -176,6 +197,7 @@ public class MainActivity extends AppCompatActivity {
             tv.setTextSize(15);
             tv.setTextColor(getResources().getColor(R.color.dddark_gray));
         }
+        tab_layout.getTabAt(7).setCustomView(R.layout.custom_view_for_bookmarks);
 
 //        new TabLayoutMediator(tab_layout,
 //                view_pager,

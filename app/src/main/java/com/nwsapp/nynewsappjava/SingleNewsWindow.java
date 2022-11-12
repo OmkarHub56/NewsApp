@@ -43,7 +43,9 @@ public class SingleNewsWindow extends AppCompatActivity {
         published_at_date.setText(intent.getStringExtra("publishedAt"));
         author_shower.setText(intent.getStringExtra("author"));
         String to_show_cont=intent.getStringExtra("content");
-        to_show_cont=to_show_cont.substring(0,to_show_cont.lastIndexOf('['));
+        if(to_show_cont.contains("[")){
+            to_show_cont=to_show_cont.substring(0,to_show_cont.lastIndexOf('['));
+        }
         content_shower.setText(to_show_cont);
         title_shower.setText(intent.getStringExtra("title"));
         description_shower.setText(intent.getStringExtra("description"));
@@ -61,6 +63,15 @@ public class SingleNewsWindow extends AppCompatActivity {
             bookmark_shower.setImageResource(R.drawable.bookmark_on_logo_64x64);
             bookmark_status=1;
             Toast.makeText(this, "Bookmark added", Toast.LENGTH_SHORT).show();
+            MyDbHelper mdb=MyDbHelper.getDatabase(this);
+
+            mdb.newsDao().addNewBookMarkedNews(new OneBookMarkedNewsItem(title_shower.getText().toString(),
+                    author_shower.getText().toString(),
+                    content_shower.getText().toString(),
+                    description_shower.getText().toString(),
+                    published_at_date.getText().toString(),
+                    news_url,
+                    getIntent().getStringExtra("imageUrl")));
         }
         else{
             bookmark_shower.setImageResource(R.drawable.bookmark_off_logo_64x64);
