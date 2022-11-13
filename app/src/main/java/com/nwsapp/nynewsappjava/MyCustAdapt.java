@@ -141,6 +141,7 @@ public class MyCustAdapt extends RecyclerView.Adapter<MyCustviewHolder> {
                 intent.putExtra("publishedAt", td);
             }
             intent.putExtra("url", items.get(position).getUrl());
+            intent.putExtra("type",type);
             context.startActivity(intent);
         });
     }

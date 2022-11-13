@@ -31,7 +31,8 @@ public class FragmentBookmarks extends Fragment {
     MyCustAdapt mydpt;
     ConstraintLayout load;
     ShimmerFrameLayout shm;
-
+    MyDbHelper mdh;
+    View parent_ll;
     public FragmentBookmarks() {
         // Required empty public constructor
     }
@@ -40,29 +41,48 @@ public class FragmentBookmarks extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view=inflater.inflate(R.layout.fragment_bookmarks, container, false);
+        parent_ll=inflater.inflate(R.layout.fragment_bookmarks, container, false);
 
-        MyDbHelper mdh=MyDbHelper.getDatabase(getActivity());
-        List<OneBookMarkedNewsItem> list1=mdh.newsDao().getAllBookmarkedNews();
+        mdh=MyDbHelper.getDatabase(getActivity());
+//        List<OneBookMarkedNewsItem> list1=mdh.newsDao().getAllBookmarkedNews();
         list=new ArrayList<>();
-        for(int i=0;i<list1.size();i++){
-            list.add(new NewsItem(list1.get(i)));
-        }
-        rv=view.findViewById(R.id.recyly);
-        shm=view.findViewById(R.id.shm);
+//        for(int i=0;i<list1.size();i++){
+//            list.add(new NewsItem(list1.get(i)));
+//        }
+        rv=parent_ll.findViewById(R.id.recyly);
+        shm=parent_ll.findViewById(R.id.shm);
 
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
 //        Log.i(TAG,"helo");
-        mydpt = new MyCustAdapt(list,getContext(),0);
-        load=(ConstraintLayout)inflater.inflate(R.layout.loading_screen,container,false);
-        rv.setAdapter(mydpt);
+//        mydpt = new MyCustAdapt(list,getContext(),0);
+//        load=(ConstraintLayout)inflater.inflate(R.layout.loading_screen,container,false);
+//        rv.setAdapter(mydpt);
 //        showBookmarkedNews();
 
-        return view;
+        return parent_ll;
 
     }
 
-//    public void showBookmarkedNews(){
+    @Override
+    public void onResume() {
+        super.onResume();
+        List<OneBookMarkedNewsItem> list1=mdh.newsDao().getAllBookmarkedNews();
+        list.clear();
+        for(int i=0;i<list1.size();i++){
+            list.add(new NewsItem(list1.get(i)));
+        }
+        mydpt = new MyCustAdapt(list,getContext(),0);
+        rv.setAdapter(mydpt);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        list.clear();
+        mydpt.notifyDataSetChanged();
+    }
+
+    //    public void showBookmarkedNews(){
 //        ApiUtilities.getApiInterface().getNews(100,"business",api_key,"in").enqueue(new Callback<FullNews>() {
 //            @Override
 //            public void onResponse(Call<FullNews> call, Response<FullNews> response) {

@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.List;
 
 public class SingleNewsWindow extends AppCompatActivity {
     String TAG="Ol";
@@ -51,6 +52,16 @@ public class SingleNewsWindow extends AppCompatActivity {
         description_shower.setText(intent.getStringExtra("description"));
         Glide.with(this).load(intent.getStringExtra("imageUrl")).into(newsImage);
         news_url=intent.getStringExtra("url");
+        MyDbHelper mdb=MyDbHelper.getDatabase(this);
+        List<OneBookMarkedNewsItem> ls=mdb.newsDao().getOneBookmarkedNews(title_shower.getText().toString());
+        if(ls.size()==0){
+            bookmark_status=0;
+            bookmark_shower.setImageResource(R.drawable.bookmark_off_logo_64x64);
+        }
+        else{
+            bookmark_status=1;
+            bookmark_shower.setImageResource(R.drawable.bookmark_on_logo_64x64);
+        }
     }
 
     public void showWebsite(View view){
@@ -65,6 +76,7 @@ public class SingleNewsWindow extends AppCompatActivity {
             Toast.makeText(this, "Bookmark added", Toast.LENGTH_SHORT).show();
             MyDbHelper mdb=MyDbHelper.getDatabase(this);
 
+
             mdb.newsDao().addNewBookMarkedNews(new OneBookMarkedNewsItem(title_shower.getText().toString(),
                     author_shower.getText().toString(),
                     content_shower.getText().toString(),
@@ -77,6 +89,14 @@ public class SingleNewsWindow extends AppCompatActivity {
             bookmark_shower.setImageResource(R.drawable.bookmark_off_logo_64x64);
             bookmark_status=0;
             Toast.makeText(this, "Bookmark removed", Toast.LENGTH_SHORT).show();
+            MyDbHelper mdb=MyDbHelper.getDatabase(this);
+            mdb.newsDao().deleteBookMarkedNews(new OneBookMarkedNewsItem(title_shower.getText().toString(),
+                    author_shower.getText().toString(),
+                    content_shower.getText().toString(),
+                    description_shower.getText().toString(),
+                    published_at_date.getText().toString(),
+                    news_url,
+                    getIntent().getStringExtra("imageUrl")));
         }
     }
 

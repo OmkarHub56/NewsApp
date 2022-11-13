@@ -9,8 +9,10 @@ import java.util.List;
 
 @Dao
 public interface OneBookMarkedNewsItemDAO {
+    @Query("SELECT * from mynewstable where title=:title")
+    List<OneBookMarkedNewsItem> getOneBookmarkedNews(String title);
 
-    @Query("SELECT * from MyNewsTable")
+    @Query("SELECT * from mynewstable")
     List<OneBookMarkedNewsItem> getAllBookmarkedNews();
 
     @Insert
@@ -18,4 +20,6 @@ public interface OneBookMarkedNewsItemDAO {
 
     @Delete
     void deleteBookMarkedNews(OneBookMarkedNewsItem news);
+
+
 }
